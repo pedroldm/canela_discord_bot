@@ -1,0 +1,6 @@
+{
+    "prefix"    : "!!",
+    "bot_token" : "",
+    "logs_file_path" : "./logs/",
+    "logs_file_name" : "log.json"
+}
