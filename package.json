@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/pedroldm/canela-discord-bot#readme",
   "dependencies": {
-    "discord.js": "^14.7.1"
+    "discord.js": "^14.7.1",
+    "playwright": "^1.28.1",
+    "xhr2": "^0.2.1"
   }
 }

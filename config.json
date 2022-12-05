@@ -1,6 +1,8 @@
 {
     "prefix"    : "!!",
     "bot_token" : "",
+    "pricelist_path" : "./price_lists/",
+    "pricelist_file" : "list.json",
     "logs_file_path" : "./logs/",
     "logs_file_name" : "log.json"
 }

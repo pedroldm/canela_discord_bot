@@ -6,11 +6,32 @@ module.exports = (client, message) => {
     const cmd = client.commands.get(command);
 
     if (cmd) {
-        const fs = require('fs');
-        fs.appendFile(client.config.logs_file_path + client.config.logs_file_name, new Date() + " : Author - \"" + message.author.username + "\", Channel - " + message.channel + ", Content - \"" + message.content + "\"\n", function(err){
-            if(err) throw err;
-            console.log(message);
-        });
+        writeLogs(message, client.config.logs_file_path, client.config.logs_file_name)
         cmd.execute(client, message, args);
     }
 };
+
+function writeLogs(message, logs_file_path, logs_file_name) {
+    const fs = require('fs');
+
+    const file_name = logs_file_path + logs_file_name;
+    if (!fs.existsSync(logs_file_path)){
+        fs.mkdirSync(logs_file_path, { recursive: true });
+    }
+    if (!fs.existsSync(file_name)) {
+        fs.closeSync(fs.openSync(file_name, 'w'));
+    }
+
+    const file = fs.readFileSync(file_name);
+    const data = {"date" : new Date().toLocaleString('pt-BR', { timeZone: "America/Sao_Paulo" }),
+                  "author" : message.author.username,
+                  "content" : message.content}
+
+    if (file.length == 0) {
+        fs.writeFileSync(file_name, JSON.stringify([data]));
+    } else {
+        const json = JSON.parse(file.toString())
+        json.push(data);
+        fs.writeFileSync(file_name, JSON.stringify(json));
+    }
+}
