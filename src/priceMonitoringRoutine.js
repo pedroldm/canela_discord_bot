@@ -1,10 +1,11 @@
 class PriceMonitoringRoutine {
-    constructor (pricelist_path, client, playwright, channel, sitesRegex) {
+    constructor (pricelist_path, client, playwright, sitesRegex) {
         this.pricelist_path = pricelist_path;
         this.client = client;
         this.playwright = playwright;
         this.channel = channel;
         this.sitesRegex = sitesRegex;
+        this.readPriceList();
     }
 
     async monitor () {

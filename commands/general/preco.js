@@ -4,11 +4,11 @@ module.exports = {
     async execute(client, message, args) {
         if(!args[0])
             return message.reply(`\`\`\`Por favor, introduza uma URL para acompanhamento de preço.\`\`\``);
-        if(!args[0].match(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/))
+        if(!args[0].match(new RegExp(client.config.url_regex, "i")))
             return message.reply(`\`\`\`Por favor, introduza uma URL válida para acompanhamento de preço.\`\`\``);
 
         const html = await accessSite(args[0]);
-        const parse = parseHtml(html);
+        const parse = parseHtml(client, html);
         if (parse.status) {
             if(writePriceList({ "author_name" : message.author.username, "author_id" : message.author.id, "url" : args[0], "current_price" : parseFloat(parse.message) }, client.config.pricelist_path, client.config.pricelist_file)) {
                 return message.reply(`Alerta de preços criado! Assim que um desconto for identificado, você será notificado. Preço atual: R$ ${parse.message}`);
@@ -30,38 +30,28 @@ async function accessSite (url) {
     const page = await context.newPage();
 
     await page.goto(url);
+    await page.screenshot({path : "screenshot.png"});
     const html = await page.content();
 
     await browser.close();
     return html;
 }
 
-function parseHtml (html) {
-    const sitesRegex = {
-        "amazon.com.br" : [/PriceToPayMargin\s*priceToPay.+?(?=R\$)R\$([\d\.\,]*)/],
-        "kabum.com.br" : [/priceWithDiscount\"\:([\d\.]*)/],
-        "pichau.com.br" : [/vista.+?(?=\d+\.\d+)(\d+\.\d+)/],
-        "terabyteshop.com.br" : [/valVista.+?(?=\d+\.\d+)(\d+\.\d+)/],
-        "store.steampowered.com" : [/data-price-final[^>]*>\s*R\$\s*([\d\.\,]*)/, /discount_final_price">R\$\s*([\d\,\.]*)/]
-    }
-
-    for (const [key, value] of Object.entries(sitesRegex)) {
+function parseHtml (client, html) {
+    for (const [key, value] of Object.entries(client.config.stores_regex)) {
         if(html.match(new RegExp(key))) {
             for (const regex of value) {
-                let price = html.match(regex);
+                let price = html.match(new RegExp(regex, "i"));
                 if (price) 
                     return { "status" : true, "message" : price[1].replace(/\.\d*/g, '') };
             }
             return { "status" : false, "message" : "A URL fornecida não corresponde a um anúncio ou o mapeamento do site está incorreto." };
         }
     }
-
     return { "status" : false, "message" : "O site requisitado ainda não foi mapeado... :face_with_diagonal_mouth:" };
 }
 
 function writePriceList(parseObject, pricelist_path, pricelist_file) {
-    const fs = require('fs');
-
     const file_name = pricelist_path + pricelist_file;
     if (!fs.existsSync(pricelist_path)){
         fs.mkdirSync(pricelist_path, { recursive: true });

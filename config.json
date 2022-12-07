@@ -4,5 +4,19 @@
     "pricelist_path" : "./price_lists/",
     "pricelist_file" : "list.json",
     "logs_file_path" : "./logs/",
-    "logs_file_name" : "log.json"
+    "logs_file_name" : "log.json",
+    "tracking_regex" : {
+        "code_format" : "[A-Z]{2}[0-9]{9}[A-Z]{2}",
+        "tracking_avaliable" : "O\\s*rastreamento\\s*n[^\\s]{1,8}o\\s*est[^\\s]{1,8}\\s*dispon[^\\s]{1,8}vel\\s*no\\s*momento",
+        "object_info" : "border-bottom:\\s*0;\"\\s*style=\"\">\\s*<li>\\s*Status:\\s*<b>([^<]*)\\s*<\\/b><\\/li>\\s*<li>Data\\s*:\\s*([^\\s]*)\\s*\\|\\s*Hora\\s*:\\s*([^<]*)\\s*<\\/li>\\s*<li>\\s*Origem:\\s*([^<]*)\\s*<\\/li>\\s*\\s*<li>\\s*Destino\\s*:\\s*([^<]*)",
+        "object_info_type2" : "border-bottom:\\s*0;\"\\s*style=\"\">\\s*<li>\\s*Status:\\s*<b>([^<]*)[^:]*:\\s*([^\\s]*)[^:]*:\\s*([^<]*)[^:]*:\\s*([^<]*)"
+    },
+    "url_regex" : "[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)",
+    "stores_regex" : {
+        "amazon.com.br" : ["PriceToPayMargin\\s*priceToPay.+?(?=R\\$)R\\$([\\d\\.\\,]*)"],
+        "kabum.com.br" : ["priceWithDiscount\"\\:([\\d\\.]*)"],
+        "pichau.com.br" : ["vista.+?(?=\\d+\\.\\d+)(\\d+\\.\\d+)"],
+        "terabyteshop.com.br" : ["valVista.+?(?=\\d+\\.\\d+)(\\d+\\.\\d+)"],
+        "store.steampowered.com" : ["data-price-final[^>]*>\\s*R\\$\\s*([\\d\\.\\,]*)", "discount_final_price\">R\\$\\s*([\\d\\,\\.]*)"]
+    }
 }

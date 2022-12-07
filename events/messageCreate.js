@@ -12,8 +12,6 @@ module.exports = (client, message) => {
 };
 
 function writeLogs(message, logs_file_path, logs_file_name) {
-    const fs = require('fs');
-
     const file_name = logs_file_path + logs_file_name;
     if (!fs.existsSync(logs_file_path)){
         fs.mkdirSync(logs_file_path, { recursive: true });

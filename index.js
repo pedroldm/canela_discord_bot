@@ -1,6 +1,6 @@
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
-const config = require('./config.json');
-const { readdirSync } = require('fs');
+global.fs = require('fs');
+global.XMLHttpRequest = require('xhr2');
 
 global.client = new Client({
     intents: [
@@ -14,7 +14,7 @@ global.client = new Client({
 client.config = require('./config.json');
 client.commands = new Collection();
 
-const events = readdirSync('./events/').filter(file => file.endsWith('.js'));
+const events = fs.readdirSync('./events/').filter(file => file.endsWith('.js'));
 console.log(`Loading events`);
 for (const file of events) {
     const event = require(`./events/${file}`);
@@ -24,8 +24,8 @@ for (const file of events) {
 };
 
 console.log(`Loading commands`);
-readdirSync('./commands/').forEach(dirs => {
-    const commands = readdirSync(`./commands/${dirs}`).filter(files => files.endsWith('.js'));
+fs.readdirSync('./commands/').forEach(dirs => {
+    const commands = fs.readdirSync(`./commands/${dirs}`).filter(files => files.endsWith('.js'));
     for (const file of commands) {
         const command = require(`./commands/${dirs}/${file}`);
         console.log(`-> Loaded command ${command.name.toLowerCase()}`);
