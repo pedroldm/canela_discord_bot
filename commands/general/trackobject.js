@@ -1,6 +1,6 @@
 module.exports = {
-    name: 'rastreio',
-    utilisation: '{prefix}rastreio',
+    name: 'trackobject',
+    utilisation: '{prefix}trackobject',
 
     execute(client, message, args) {
         if (!args[0])

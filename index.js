@@ -1,6 +1,8 @@
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 global.fs = require('fs');
 global.XMLHttpRequest = require('xhr2');
+global.priceMonitoringRoutine = require('./src/priceMonitoringRoutine');
+global.playwright = require('playwright');
 
 global.client = new Client({
     intents: [
@@ -34,5 +36,11 @@ fs.readdirSync('./commands/').forEach(dirs => {
     };
 });
 
+priceMonitoring = new priceMonitoringRoutine();
+priceMonitoring.monitor();
+setTimeout(() => {
+    priceMonitoring.monitor();
+}, 7200000);
+
 console.log('Ready!');
-client.login(config.bot_token);
+client.login(client.config.bot_token);
