@@ -13,7 +13,7 @@ module.exports = (client, message) => {
 
 function writeLogs(message, client) {
     const file_name = client.config.logs_file_path + client.config.logs_file_name;
-    if (!fs.existsSync(client.config.logs_file_path)){
+    if (!fs.existsSync(client.config.logs_file_path)) {
         fs.mkdirSync(client.config.logs_file_path, { recursive: true });
     }
     if (!fs.existsSync(file_name)) {
@@ -21,9 +21,11 @@ function writeLogs(message, client) {
     }
 
     const file = fs.readFileSync(file_name);
-    const data = { "date" : new Date().toLocaleString('pt-BR', { timeZone: "America/Sao_Paulo" }),
-                  "author" : message.author.username,
-                  "content" : message.content }
+    const data = {
+        "date": new Date().toLocaleString('pt-BR', { timeZone: "America/Sao_Paulo" }),
+        "author": message.author.username,
+        "content": message.content
+    }
 
     if (file.length == 0) {
         fs.writeFileSync(file_name, JSON.stringify([data]));

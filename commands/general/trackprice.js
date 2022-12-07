@@ -31,7 +31,6 @@ async function accessSite(url) {
 
     console.log(`Acessando URL : ${url}`);
     await page.goto(url);
-    await page.screenshot({ path: "screenshot.png" });
     const html = await page.content();
 
     await browser.close();

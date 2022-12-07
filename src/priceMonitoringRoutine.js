@@ -3,12 +3,12 @@ class PriceMonitoringRoutine {
         if (!this.readPriceList())
             return;
 
-        let logs = { 
-            "monitoring_start": new Date().toLocaleString('pt-BR', { timeZone: "America/Sao_Paulo" }), 
-            "total": this.pricelist.length, 
-            "accessed": 0, 
-            "urls": [], 
-            "monitoring_end": null 
+        let logs = {
+            "monitoring_start": new Date().toLocaleString('pt-BR', { timeZone: "America/Sao_Paulo" }),
+            "total": this.pricelist.length,
+            "accessed": 0,
+            "urls": [],
+            "monitoring_end": null
         };
 
         const browser = await playwright['firefox'].launch();
