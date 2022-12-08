@@ -38,7 +38,7 @@ fs.readdirSync('./commands/').forEach(dirs => {
 
 priceMonitoring = new priceMonitoringRoutine();
 priceMonitoring.monitor();
-setTimeout(() => {
+setInterval(() => {
     priceMonitoring.monitor();
 }, 7200000);
 
