@@ -23,5 +23,10 @@
     "playwright": "^1.28.1",
     "xhr2": "^0.2.1",
     "ytdl-core": "^4.11.5"
+  },
+  "overrides": {
+    "discord-music-player": {
+      "@discordjs/voice": "^0.16.0"
+    }
   }
 }

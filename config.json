@@ -1,6 +1,6 @@
 {
     "prefix"    : "!!",
-    "bot_token" : "ODk4NTc4Njk0NzU3NTc2NzU1.G3k6Ut.RZF2jI19B3ZPO-qYD6biNJj4NLWyqQJJ-jK9PA",
+    "bot_token" : "",
     "pricelist_path" : "./price_lists/",
     "pricelist_file" : "list.json",
     "logs_file_path" : "./logs/",

@@ -22,6 +22,26 @@ client.player = new Player(client, {
     leaveOnEmpty: true
 })
 
+client.player.on('connectionCreate', (queue) => {
+    queue.connection.voiceConnection.on('stateChange', (oldState, newState) => {
+        const oldNetworking = Reflect.get(oldState, 'networking');
+        const newNetworking = Reflect.get(newState, 'networking');
+
+        const networkStateChangeHandler = (oldNetworkState, newNetworkState) => {
+            const newUdp = Reflect.get(newNetworkState, 'udp');
+            clearInterval(newUdp?.keepAliveInterval);
+        }
+
+        oldNetworking?.off('stateChange', networkStateChangeHandler);
+        newNetworking?.on('stateChange', networkStateChangeHandler);
+    });
+});
+
+client.player.on('songAdd', (queue, song) => queue.data.channel.send(`Música ${song} adicionada à playlist.`));
+client.player.on('queueEnd', (queue) => queue.data.channel.send(`Fim da playlist.`));
+client.player.on('songChanged', (queue, newSong, oldSong) => queue.data.channel.send(`${newSong} está tocando.`))
+client.player.on('clientDisconnect', (queue) => queue.data.channel.send(`Fui desconectado do canal de voz. Encerrando a playlist.`))
+
 const events = fs.readdirSync('./events/').filter(file => file.endsWith('.js'));
 console.log(`Loading events`);
 for (const file of events) {
