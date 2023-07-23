@@ -5,7 +5,7 @@ module.exports = {
     async execute(client, message, args) {
         let queue = client.player.createQueue(message.guild.id, {
             data: {
-                "channel": message.channelId
+                queueInitMessage: message,
             }
         });
         await queue.join(message.member.voice.channel);
@@ -14,6 +14,8 @@ module.exports = {
             if(!client.player.getQueue(message.guild.id))
                 queue.stop();
         });
-        message.reply(`Música ${song.name} by ${song.author} adicionada à playlist`);
+        song.setData({
+            author: message.author.username
+        });
     },
 };

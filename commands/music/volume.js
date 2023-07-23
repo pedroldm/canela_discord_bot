@@ -2,8 +2,8 @@
 
 
 module.exports = {
-    name: 'queue',
-    utilisation: '{prefix}queue',
+    name: 'volume',
+    utilisation: '{prefix}volume',
 
     async execute(client, message, args) {
         let queue = client.player.getQueue(message.guild.id);

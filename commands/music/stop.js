@@ -7,7 +7,6 @@ module.exports = {
         if(queue == undefined){
             return message.reply('Nenhuma música na fila para parar!');
         }
-        message.reply(`Parando playlist...`);
         queue.stop();
     },
 };

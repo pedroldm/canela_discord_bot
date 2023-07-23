@@ -37,18 +37,22 @@ client.player.on('connectionCreate', (queue) => {
     });
 });
 
-client.player.on('songAdd', (queue, song) => queue.data.channel.send(`Música ${song} adicionada à playlist.`));
-client.player.on('queueEnd', (queue) => queue.data.channel.send(`Fim da playlist.`));
-client.player.on('songChanged', (queue, newSong, oldSong) => queue.data.channel.send(`${newSong} está tocando.`))
-client.player.on('clientDisconnect', (queue) => queue.data.channel.send(`Fui desconectado do canal de voz. Encerrando a playlist.`))
-
-const events = fs.readdirSync('./events/').filter(file => file.endsWith('.js'));
-console.log(`Loading events`);
-for (const file of events) {
-    const event = require(`./events/${file}`);
-    console.log(`-> Loaded event ${file.split('.')[0]}`);
+const generalEvents = fs.readdirSync('./events/general/').filter(file => file.endsWith('.js'));
+console.log(`Loading general events`);
+for (const file of generalEvents) {
+    const event = require(`./events/general/${file}`);
+    console.log(`-> Loaded general event ${file.split('.')[0]}`);
     client.on(file.split('.')[0], event.bind(null, client));
-    delete require.cache[require.resolve(`./events/${file}`)];
+    delete require.cache[require.resolve(`./events/general/${file}`)];
+};
+
+const musicEvents = fs.readdirSync('./events/music/').filter(file => file.endsWith('.js'));
+console.log(`Loading music events`);
+for (const file of musicEvents) {
+    const event = require(`./events/music/${file}`);
+    console.log(`-> Loaded music event ${file.split('.')[0]}`);
+    client.player.on(file.split('.')[0], event.bind(client.player));
+    delete require.cache[require.resolve(`./events/music/${file}`)];
 };
 
 console.log(`Loading commands`);

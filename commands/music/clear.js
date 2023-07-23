@@ -7,7 +7,6 @@ module.exports = {
         if(queue == undefined){
             return message.reply('Nenhuma playlist para limpar!');
         }
-        message.reply(`Limpando playlist atual`);
         queue.clearQueue();
     },
 };
