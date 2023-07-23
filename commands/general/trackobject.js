@@ -20,13 +20,13 @@ module.exports = {
     },
 };
 
-function parseHtml(client, string) {
-    if (string.match(new RegExp(client.config.tracking_regex.tracking_avaliable, "i")))
+function parseHtml(html) {
+    if (html.match(new RegExp(client.config.tracking_regex.tracking_avaliable, "i")))
         return ('\`\`\`❌ ERRO : Objeto não encontrado. Verifique se o código do objeto está correto.\`\`\`');
-    let match = string.match(new RegExp(client.config.tracking_regex.object_info, "i"));
+    let match = html.match(new RegExp(client.config.tracking_regex.object_info, "i"));
     if (match)
         return ('\`\`\`Status  : ' + match[1] + '\nData    : ' + match[2] + '\nHora    : ' + match[3] + '\nOrigem  : ' + match[4] + '\nDestino : ' + match[5] + '\`\`\`');
-    match = string.match(new RegExp(client.config.tracking_regex.object_info_type2, "i"));
+    match = html.match(new RegExp(client.config.tracking_regex.object_info_type2, "i"));
     if (match)
         return ('\`\`\`Status : ' + match[1] + '\nData   : ' + match[2] + '\nHora   : ' + match[3] + '\nLocal  : ' + match[4] + '\`\`\`');
     return ('\`\`\`Status não mapeado, favor informar o responsável\`\`\`')

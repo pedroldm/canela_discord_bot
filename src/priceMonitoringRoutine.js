@@ -51,16 +51,16 @@ class PriceMonitoringRoutine {
                     if (price) {
                         price = parseInt(price[1].replace(/\./g, ''));
                         if (r.current_price > price) {
-                            this.sendMessageAlert(r.channel_id, `<@${r.author_id}> - Seu produto ${r.url} abaixou de preço :partying_face: ! De R$${r.current_price} por ${price} !`);
+                            this.sendAlertMessage(r.channel_id, `<@${r.author_id}> - Seu produto ${r.url} abaixou de preço :partying_face: ! De R$${r.current_price} por ${price} !`);
                             r.current_price = price;
                         }
                         else if (r.current_price < price) {
-                            this.sendMessageAlert(r.channel_id, `<@${r.author_id}> - Seu produto ${r.url} subiu de preço :neutral_face: ! De R$${r.current_price} para ${price} .`);
+                            this.sendAlertMessage(r.channel_id, `<@${r.author_id}> - Seu produto ${r.url} subiu de preço :neutral_face: ! De R$${r.current_price} para ${price} .`);
                             r.current_price = price;
                         }
                     }
                     else {
-                        this.sendMessageAlert(r.channel_id, `<@${r.author_id}> - Ocorreu um erro ao consultar ${r.url}. Alô <@208810365839081473> :angry: .`);
+                        this.sendAlertMessage(r.channel_id, `<@${r.author_id}> - Ocorreu um erro ao consultar ${r.url}. Alô <@208810365839081473> :angry: .`);
                     }
                 }
             }
@@ -74,7 +74,7 @@ class PriceMonitoringRoutine {
         await browser.close();
     }
 
-    async sendMessageAlert(channel_id, message) {
+    async sendAlertMessage(channel_id, message) {
         const channel = await client.channels.fetch(channel_id);
         await channel.send(message);
     }
@@ -83,7 +83,7 @@ class PriceMonitoringRoutine {
         fs.writeFileSync(file_name, JSON.stringify(this.pricelist));
     }
 
-    writeLogs(client) {
+    writeLogs() {
         const file_name = client.config.logs_file_path + client.config.logs_file_name;
         if (!fs.existsSync(client.config.logs_file_path)) {
             fs.mkdirSync(client.config.logs_file_path, { recursive: true });
@@ -104,7 +104,6 @@ class PriceMonitoringRoutine {
     }
 
     readPriceList() {
-        const fs = require('fs');
         const pricelist_path = client.config.pricelist_path + client.config.pricelist_file;
         if (!pricelist_path || !fs.existsSync(pricelist_path))
             return false;

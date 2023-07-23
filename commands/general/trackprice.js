@@ -6,8 +6,9 @@ module.exports = {
             return message.reply(`\`\`\`Por favor, introduza uma URL para acompanhamento de preço.\`\`\``);
         if (!args[0].match(new RegExp(client.config.url_regex, "i")))
             return message.reply(`\`\`\`Por favor, introduza uma URL válida para acompanhamento de preço.\`\`\``);
-        if (args[0].match(/kabum\.com\.br/i) || args[0].match(/pichau\.com\.br/i) && !args[0].match(/\?gclid\=/i))
-            args[0] += client.config.gclid_kabum;
+        console.log(needsGClid(client, args[0]))
+        if (needsGClid(client, args[0]))
+            args[0] += client.config.gclid;
 
         const html = await accessSite(args[0]);
         const parse = parseHtml(client, html);
@@ -37,7 +38,7 @@ async function accessSite(url) {
     return html;
 }
 
-function parseHtml(client, html) {
+function parseHtml(html) {
     for (const [key, value] of Object.entries(client.config.stores_regex)) {
         if (html.match(new RegExp(key))) {
             for (const regex of value) {
@@ -74,4 +75,15 @@ function writePriceList(parseObject, pricelist_path, pricelist_file) {
     }
 
     return true;
+}
+
+function needsGClid(url) {
+    if (url.match(/\?gclid\=/i))
+        return false;
+    for (const regex of client.config.needs_gclid) {
+        console.log(regex)
+        if (url.match(regex))
+            return true;
+    }
+    return false;
 }

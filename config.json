@@ -1,6 +1,6 @@
 {
     "prefix"    : "!!",
-    "bot_token" : "",
+    "bot_token" : "ODk4NTc4Njk0NzU3NTc2NzU1.G3k6Ut.RZF2jI19B3ZPO-qYD6biNJj4NLWyqQJJ-jK9PA",
     "pricelist_path" : "./price_lists/",
     "pricelist_file" : "list.json",
     "logs_file_path" : "./logs/",
@@ -19,5 +19,6 @@
         "terabyteshop.com.br" : ["valVista.+?(?=\\d+\\.\\d+)(\\d+\\.\\d+)", "valVista\">\\s*R\\$\\s*(\\d+)"],
         "store.steampowered.com" : ["data-price-final[^>]*>\\s*R\\$\\s*([\\d\\.\\,]*)", "discount_final_price\">R\\$\\s*([\\d\\,\\.]*)"]
     },
-    "gclid_kabum" : "?gclid=Cj0KCQiAsoycBhC6ARIsAPPbeLviE60l9S_zABrvr404JKkbYOi4s5G0Fk7-mnk5iObhWJxkyQkKdU0aAjgAEALw_wcB"
+    "needs_gclid": ["kabum", "pichau"],
+    "gclid" : "?gclid=Cj0KCQiAsoycBhC6ARIsAPPbeLviE60l9S_zABrvr404JKkbYOi4s5G0Fk7-mnk5iObhWJxkyQkKdU0aAjgAEALw_wcB"
 }

@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/pedroldm/canela-discord-bot#readme",
   "dependencies": {
+    "discord-music-player": "^9.1.1",
     "discord.js": "^14.7.1",
+    "isomorphic-unfetch": "^4.0.2",
     "playwright": "^1.28.1",
-    "xhr2": "^0.2.1"
+    "xhr2": "^0.2.1",
+    "ytdl-core": "^4.11.5"
   }
 }

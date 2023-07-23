@@ -1,4 +1,5 @@
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Player } = require("discord-music-player");
 global.fs = require('fs');
 global.XMLHttpRequest = require('xhr2');
 global.priceMonitoringRoutine = require('./src/priceMonitoringRoutine');
@@ -10,11 +11,16 @@ global.client = new Client({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildVoiceStates
     ],
     disableMentions: 'everyone',
 });
 client.config = require('./config.json');
 client.commands = new Collection();
+
+client.player = new Player(client, {
+    leaveOnEmpty: true
+})
 
 const events = fs.readdirSync('./events/').filter(file => file.endsWith('.js'));
 console.log(`Loading events`);
